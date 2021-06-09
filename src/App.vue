@@ -1,17 +1,33 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+
+    <PackChart :tweetData="loadData" />
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import * as d3 from "d3";
+import PackChart from "./components/PackChart.vue";
 
 export default {
   name: "App",
   components: {
-    HelloWorld,
+    PackChart,
+  },
+  data() {
+    return {
+      loadData: [],
+    };
+  },
+  mounted() {
+    this.fetchData();
+  },
+  methods: {
+    async fetchData() {
+      const data = await d3.json("./tweets.json");
+      this.loadData = data.tweets;
+    },
   },
 };
 </script>
